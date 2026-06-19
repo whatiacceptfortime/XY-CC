@@ -1,0 +1,27 @@
+<!--pages/admin/student-add/student-add.wxml-->
+<view class="edit-page">
+  <view class="form-card">
+    <view class="form-row">
+      <text class="form-label">学员姓名</text>
+      <input class="form-input" placeholder="请输入姓名" value="{{form.name}}" bindinput="onNameInput" />
+    </view>
+
+    <view class="form-row">
+      <text class="form-label">手机号</text>
+      <input class="form-input" type="number" maxlength="11" placeholder="请输入手机号" value="{{form.phone}}" bindinput="onPhoneInput" />
+    </view>
+
+    <view class="form-row" wx:if="{{!isEdit}}">
+      <text class="form-label">有效期</text>
+      <picker mode="selector" range="{{durationOptions}}" range-key="label" bindchange="onDurationChange" value="{{durationIndex}}">
+        <view class="form-picker">{{durationOptions[durationIndex].label}} ▾</view>
+      </picker>
+    </view>
+
+    <view class="expire-info" wx:if="{{expireDateStr}}">
+      <text>到期日期：{{expireDateStr}}</text>
+    </view>
+  </view>
+
+  <button class="btn-primary" bindtap="onSave" loading="{{saving}}">保存</button>
+</view>

@@ -1,0 +1,34 @@
+<!--pages/result/result.wxml-->
+<view class="result-page">
+  <view class="score-card card">
+    <view class="score-emoji">{{rate >= 90 ? '🏆' : rate >= 70 ? '👍' : rate >= 50 ? '📖' : '🌱'}}</view>
+    <view class="score-title">{{name}} · 练习完成</view>
+    <view class="score-circle">
+      <text class="score-rate">{{rate}}</text>
+      <text class="score-unit">分</text>
+    </view>
+    <view class="score-detail">
+      <view class="detail-item">
+        <text class="d-num correct">{{correct}}</text>
+        <text class="d-label">答对</text>
+      </view>
+      <view class="detail-divider"></view>
+      <view class="detail-item">
+        <text class="d-num wrong">{{total - correct}}</text>
+        <text class="d-label">答错</text>
+      </view>
+      <view class="detail-divider"></view>
+      <view class="detail-item">
+        <text class="d-num">{{total}}</text>
+        <text class="d-label">总题数</text>
+      </view>
+    </view>
+    <view class="comment">{{comment}}</view>
+  </view>
+
+  <view class="actions">
+    <button class="action-btn primary" bindtap="onRetry">再来一组</button>
+    <button class="action-btn" bindtap="onWrongBook">查看错题本</button>
+    <button class="action-btn" bindtap="onHome">返回首页</button>
+  </view>
+</view>

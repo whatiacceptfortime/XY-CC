@@ -1,0 +1,44 @@
+<!--pages/index/index.wxml - 首页-->
+<view class="container">
+  <!-- 顶部 Banner -->
+  <view class="banner theme-bg">
+    <view class="banner-title">{{appName}}</view>
+    <view class="banner-desc">海量题库 · 模拟考试 · 错题回顾</view>
+    <view class="banner-stats">
+      <view class="stat-item">
+        <text class="stat-num">{{stats.totalQuestions}}</text>
+        <text class="stat-label">总题量</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-num">{{stats.todayCount}}</text>
+        <text class="stat-label">今日练习</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 公告 -->
+  <view class="notice card">
+    <text class="notice-tag">公告</text>
+    <text class="notice-text">欢迎使用新越答题小程序，每日练习提升技能！</text>
+  </view>
+
+  <!-- 科目列表 -->
+  <view class="section-title">选择科目开始练习</view>
+  <view class="category-list">
+    <view
+      class="category-item card"
+      wx:for="{{categories}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      data-name="{{item.name}}"
+      bindtap="onTapCategory"
+    >
+      <view class="cat-icon">{{item.icon}}</view>
+      <view class="cat-info">
+        <view class="cat-name">{{item.name}}</view>
+        <view class="cat-desc">{{item.desc}}</view>
+      </view>
+      <view class="cat-arrow">›</view>
+    </view>
+  </view>
+</view>

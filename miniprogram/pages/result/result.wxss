@@ -1,0 +1,65 @@
+/* pages/result/result.wxss */
+.result-page { padding: 40rpx 0; }
+.score-card { text-align: center; padding: 60rpx 30rpx; }
+.score-emoji { font-size: 100rpx; }
+.score-title { font-size: 30rpx; color: #888; margin: 20rpx 0 40rpx; }
+.score-circle {
+  width: 240rpx; height: 240rpx;
+  border-radius: 50%;
+  background: conic-gradient(#07c160 0deg, #07c160 3.6deg, #eee 3.6deg);
+  /* 动态圆环可后续用 canvas 实现 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  position: relative;
+}
+.score-circle::before {
+  content: '';
+  position: absolute;
+  width: 190rpx; height: 190rpx;
+  background: #fff;
+  border-radius: 50%;
+}
+.score-rate {
+  font-size: 72rpx;
+  font-weight: bold;
+  color: #07c160;
+  position: relative;
+  z-index: 1;
+}
+.score-unit {
+  font-size: 28rpx;
+  color: #07c160;
+  position: relative;
+  z-index: 1;
+  margin-top: 20rpx;
+}
+.score-detail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50rpx;
+}
+.detail-item { display: flex; flex-direction: column; align-items: center; padding: 0 40rpx; }
+.detail-divider { width: 2rpx; height: 60rpx; background: #eee; }
+.d-num { font-size: 44rpx; font-weight: bold; }
+.d-num.correct { color: #07c160; }
+.d-num.wrong { color: #ee0a24; }
+.d-label { font-size: 24rpx; color: #999; margin-top: 8rpx; }
+.comment { font-size: 28rpx; color: #666; margin-top: 40rpx; }
+
+.actions { padding: 0 40rpx; margin-top: 40rpx; }
+.action-btn {
+  margin: 20rpx 0;
+  height: 88rpx;
+  line-height: 88rpx;
+  border-radius: 44rpx;
+  font-size: 30rpx;
+  background: #f5f5f5;
+  color: #555;
+}
+.action-btn.primary {
+  background: linear-gradient(135deg, #1989fa, #07c160);
+  color: #fff;
+}

@@ -1,0 +1,58 @@
+<!--pages/admin/stats/stats.wxml-->
+<view class="stats-page">
+  <block wx:if="{{stats}}">
+    <!-- 核心指标 -->
+    <view class="stats-grid">
+      <view class="stat-card">
+        <text class="stat-num">{{stats.questionsCount}}</text>
+        <text class="stat-label">题库总量</text>
+      </view>
+      <view class="stat-card">
+        <text class="stat-num">{{stats.studentCount}}</text>
+        <text class="stat-label">学员人数</text>
+      </view>
+      <view class="stat-card">
+        <text class="stat-num">{{stats.recordsCount}}</text>
+        <text class="stat-label">答题次数</text>
+      </view>
+      <view class="stat-card">
+        <text class="stat-num">{{stats.avgAccuracy}}%</text>
+        <text class="stat-label">平均正确率</text>
+      </view>
+    </view>
+
+    <!-- 科目分布 -->
+    <view class="chart-card" wx:if="{{stats.categories.length}}">
+      <view class="chart-title">科目题量分布</view>
+      <view class="bar-list">
+        <view class="bar-item" wx:for="{{stats.categories}}" wx:key="categoryId">
+          <view class="bar-label">{{item.name}}</view>
+          <view class="bar-track">
+            <view class="bar-fill" style="width: {{item.count / stats.questionsCount * 100}}%"></view>
+          </view>
+          <view class="bar-num">{{item.count}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 题型分布 -->
+    <view class="chart-card" wx:if="{{stats.typeDistribution.length}}">
+      <view class="chart-title">题型分布</view>
+      <view class="type-list">
+        <view class="type-item" wx:for="{{stats.typeDistribution}}" wx:key="type">
+          <view class="type-dot" style="background: {{typeColors[item.type]}}"></view>
+          <text class="type-name">{{typeLabels[item.type]}}</text>
+          <text class="type-count">{{item.count}} 题</text>
+          <text class="type-pct">{{stats.questionsCount ? (item.count / stats.questionsCount * 100) : 0}}%</text>
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <view class="empty" wx:if="{{!loading && !stats}}">
+    <view class="empty-icon">📊</view>
+    <view>暂无统计数据</view>
+  </view>
+
+  <view class="loading" wx:if="{{loading}}">加载中...</view>
+</view>

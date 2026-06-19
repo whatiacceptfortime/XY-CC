@@ -1,0 +1,9 @@
+{
+  "name": "adminBatchImportStudents",
+  "version": "1.0.0",
+  "description": "新越答题 - 批量导入学员",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

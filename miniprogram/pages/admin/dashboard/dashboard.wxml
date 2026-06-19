@@ -1,0 +1,43 @@
+<!--pages/admin/dashboard/dashboard.wxml-->
+<view class="dashboard">
+  <!-- 概览卡片 -->
+  <view class="overview">
+    <view class="overview-title">数据概览</view>
+    <view class="overview-grid">
+      <view class="ov-item">
+        <text class="ov-num">{{stats.questionsCount}}</text>
+        <text class="ov-label">题库总量</text>
+      </view>
+      <view class="ov-item">
+        <text class="ov-num">{{stats.studentCount}}</text>
+        <text class="ov-label">学员人数</text>
+      </view>
+      <view class="ov-item">
+        <text class="ov-num">{{stats.recordsCount}}</text>
+        <text class="ov-label">答题次数</text>
+      </view>
+      <view class="ov-item">
+        <text class="ov-num">{{stats.avgAccuracy}}%</text>
+        <text class="ov-label">平均正确率</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 功能菜单 -->
+  <view class="menu-list">
+    <view
+      class="menu-item"
+      wx:for="{{menus}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="onMenuTap"
+    >
+      <view class="menu-icon">{{item.icon}}</view>
+      <view class="menu-info">
+        <view class="menu-name">{{item.name}}</view>
+        <view class="menu-desc">{{item.desc}}</view>
+      </view>
+      <view class="menu-arrow">›</view>
+    </view>
+  </view>
+</view>

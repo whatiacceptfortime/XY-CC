@@ -1,0 +1,30 @@
+<!--pages/wrongbook/wrongbook.wxml-->
+<view class="wrong-page">
+  <block wx:if="{{!isEmpty}}">
+    <view class="header">
+      <text class="count">共 {{wrongList.length}} 道错题</text>
+      <text class="clear-btn" bindtap="onClearAll">清空</text>
+    </view>
+    <view
+      class="wrong-item card"
+      wx:for="{{wrongList}}"
+      wx:key="_id"
+      data-id="{{item._id}}"
+      data-categoryid="{{item.categoryId}}"
+      bindtap="onRetryQuestion"
+    >
+      <view class="w-title">{{item.title}}</view>
+      <view class="w-meta">
+        <text class="w-tag">{{item.categoryId}}</text>
+        <text class="w-time" wx:if="{{item.timeStr}}">{{item.timeStr}}</text>
+        <text class="w-arrow">重做 ›</text>
+      </view>
+    </view>
+  </block>
+
+  <view class="empty" wx:if="{{isEmpty}}">
+    <view class="empty-emoji">📝</view>
+    <view class="empty-text">还没有错题</view>
+    <view class="empty-tip">继续练习，错题会自动收录到这里</view>
+  </view>
+</view>

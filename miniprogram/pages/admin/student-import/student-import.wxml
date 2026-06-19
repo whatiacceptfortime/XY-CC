@@ -1,0 +1,55 @@
+<!--pages/admin/student-import/student-import.wxml-->
+<view class="import-page">
+  <view class="tips card">
+    <view class="tips-title">📋 批量导入说明</view>
+    <view class="tips-item">每行一条，格式：手机号,姓名</view>
+    <view class="tips-item">分隔符支持逗号、空格</view>
+    <view class="tips-item">已存在的手机号将自动更新</view>
+    <view class="tips-example">
+      示例：
+      13800138000,张三
+      13900139000,李四
+    </view>
+  </view>
+
+  <!-- 有效期 -->
+  <view class="form-row card">
+    <text class="form-label">有效期</text>
+    <picker mode="selector" range="{{durationOptions}}" range-key="label" bindchange="onDurationChange" value="{{durationIndex}}">
+      <view class="form-picker">{{durationOptions[durationIndex].label}} ▾</view>
+    </picker>
+  </view>
+
+  <!-- 文本框 -->
+  <view class="text-area-wrap card">
+    <textarea
+      class="text-area"
+      placeholder="请按格式输入学员信息，每行一条&#10;13800138000,张三&#10;13900139000,李四"
+      value="{{text}}"
+      bindinput="onTextInput"
+      maxlength="-1"
+      auto-height
+    />
+  </view>
+
+  <!-- 导入结果 -->
+  <view class="result card" wx:if="{{result}}">
+    <view class="result-title">导入结果</view>
+    <view class="result-row">
+      <text class="result-success">✅ 成功：{{result.success}} 条</text>
+      <text class="result-fail" wx:if="{{result.failed > 0}}">❌ 失败：{{result.failed}} 条</text>
+    </view>
+    <view class="result-errors" wx:if="{{result.errors.length > 0}}">
+      <view class="error-item" wx:for="{{result.errors}}" wx:key="index">{{item}}</view>
+    </view>
+  </view>
+
+  <!-- 按钮 -->
+  <view class="actions">
+    <button class="btn-secondary" bindtap="onClear" wx:if="{{text}}">清空</button>
+    <button class="btn-primary" bindtap="onImport" loading="{{importing}}" disabled="{{importing}}">
+      {{importing ? '导入中...' : '开始导入'}}
+    </button>
+    <button class="btn-secondary" bindtap="onBack" wx:if="{{result}}">完成返回</button>
+  </view>
+</view>

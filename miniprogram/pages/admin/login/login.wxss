@@ -1,0 +1,50 @@
+/* pages/admin/login/login.wxss */
+.admin-login {
+  padding: 120rpx 50rpx 0;
+  min-height: 100vh;
+  background: #f5f6f8;
+}
+.login-header { text-align: center; margin-bottom: 80rpx; }
+.lock-icon { font-size: 120rpx; }
+.title { font-size: 44rpx; font-weight: bold; color: #222; margin-top: 20rpx; }
+.subtitle { font-size: 24rpx; color: #999; margin-top: 12rpx; }
+.tip { text-align: center; font-size: 24rpx; color: #1989fa; margin-top: 30rpx; }
+
+.manual-form { margin-top: 40rpx; }
+.phone-input {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  font-size: 32rpx;
+  margin-bottom: 30rpx;
+  border: 2rpx solid #eee;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 40rpx 0;
+}
+.divider-line { flex: 1; height: 1rpx; background: #e0e0e0; }
+.divider-text { padding: 0 24rpx; font-size: 24rpx; color: #ccc; }
+
+.btn-wx {
+  background: #07c160;
+  color: #fff;
+  border-radius: 48rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  font-size: 30rpx;
+}
+.btn-wx:active { opacity: 0.85; }
+
+.notice {
+  margin-top: 80rpx;
+  text-align: center;
+}
+.notice text {
+  display: block;
+  font-size: 24rpx;
+  color: #bbb;
+  padding: 6rpx 0;
+}

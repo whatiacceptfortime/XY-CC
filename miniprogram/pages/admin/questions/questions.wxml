@@ -1,0 +1,47 @@
+<!--pages/admin/questions/questions.wxml-->
+<view class="questions-page">
+  <!-- 筛选栏 -->
+  <view class="filter-bar">
+    <picker mode="selector" range="{{categories}}" range-key="name" bindchange="onCategoryChange">
+      <view class="filter-item">{{categories[0].name}} ▾</view>
+    </picker>
+    <picker mode="selector" range="{{types}}" range-key="name" bindchange="onTypeChange">
+      <view class="filter-item">{{types[0].name}} ▾</view>
+    </picker>
+    <view class="filter-search">
+      <input class="search-input" placeholder="搜索题干" value="{{keyword}}" bindinput="onSearch" bindconfirm="onSearchConfirm" confirm-type="search" />
+    </view>
+  </view>
+
+  <!-- 题目列表 -->
+  <view class="q-list">
+    <view class="q-item" wx:for="{{list}}" wx:key="_id">
+      <view class="q-item-header">
+        <text class="q-type-tag {{item.type}}">{{typeMap[item.type]}}</text>
+        <text class="q-category">{{item.categoryName}}</text>
+      </view>
+      <view class="q-title" data-id="{{item._id}}" data-index="{{index}}" bindtap="onEdit">{{item.title}}</view>
+      <view class="q-options" wx:for="{{item.options}}" wx:for-item="opt" wx:for-index="oi" wx:key="oi">
+        <text class="opt-letter">{{['A','B','C','D','E'][oi]}}</text>
+        <text class="opt-text">{{opt}}</text>
+      </view>
+      <view class="q-item-actions">
+        <text class="action-btn edit" data-id="{{item._id}}" data-index="{{index}}" bindtap="onEdit">编辑</text>
+        <text class="action-btn delete" data-id="{{item._id}}" data-index="{{index}}" bindtap="onDelete">删除</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty" wx:if="{{!loading && list.length === 0}}">
+    <view class="empty-icon">📋</view>
+    <view>暂无题目</view>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading" wx:if="{{loading}}">加载中...</view>
+  <view class="loading" wx:if="{{!loading && !hasMore && list.length > 0}}">没有更多了</view>
+
+  <!-- 悬浮新增按钮 -->
+  <view class="fab" bindtap="onAdd">+</view>
+</view>

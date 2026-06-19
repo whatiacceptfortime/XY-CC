@@ -1,0 +1,28 @@
+<!--pages/login/login.wxml-->
+<view class="login-page">
+  <view class="logo">📘</view>
+  <view class="title">新越答题</view>
+  <view class="subtitle">新越职业技能培训学校 · 学员练习平台</view>
+
+  <view class="form">
+    <input
+      class="phone-input"
+      type="number"
+      maxlength="11"
+      placeholder="请输入手机号"
+      value="{{phone}}"
+      bindinput="onPhoneInput"
+    />
+    <button class="btn-primary" bindtap="onLogin" loading="{{loading}}" disabled="{{loading}}">
+      {{loading ? '登录中...' : '登录'}}
+    </button>
+  </view>
+
+  <view class="tip">请输入管理员为您开通的手机号</view>
+
+  <!-- 离线模式提示 -->
+  <view class="offline-tip" wx:if="{{!cloudReady}}">
+    <text>⚠️ 云开发未配置，当前为离线模式</text>
+    <text class="offline-detail">仅可浏览题库，登录功能需开通云开发</text>
+  </view>
+</view>

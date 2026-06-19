@@ -1,0 +1,36 @@
+<!--pages/admin/students/students.wxml-->
+<view class="students-page">
+  <view class="filter-bar">
+    <view class="filter-search">
+      <input class="search-input" placeholder="搜索姓名/手机号" value="{{keyword}}" bindinput="onSearch" bindconfirm="onSearchConfirm" confirm-type="search" />
+    </view>
+    <view class="import-btn" bindtap="onImport">批量导入</view>
+  </view>
+
+  <view class="total-bar">共 {{total}} 位学员</view>
+
+  <view class="student-list">
+    <view class="student-item" wx:for="{{list}}" wx:key="_id" data-item="{{item}}" bindtap="onEdit">
+      <view class="stu-avatar {{item.status === 'expired' ? 'expired' : ''}}">{{item.name ? item.name.charAt(0) : '?'}}</view>
+      <view class="stu-info">
+        <view class="stu-name">{{item.name}} <text class="stu-status {{item.status}}">{{item.status === 'expired' ? '已过期' : '有效'}}</text></view>
+        <view class="stu-meta">
+          <text>{{item.phone}}</text>
+        </view>
+        <view class="stu-time">到期：{{item.expireDateStr}}</view>
+      </view>
+      <view class="stu-arrow">编辑 ›</view>
+    </view>
+  </view>
+
+  <view class="empty" wx:if="{{!loading && list.length === 0}}">
+    <view class="empty-icon">👥</view>
+    <view>暂无学员</view>
+    <view class="empty-tip">点击右下角 + 录入学员</view>
+  </view>
+
+  <view class="loading" wx:if="{{loading}}">加载中...</view>
+  <view class="loading" wx:if="{{!loading && !hasMore && list.length > 0}}">没有更多了</view>
+
+  <view class="fab" bindtap="onAdd">+</view>
+</view>

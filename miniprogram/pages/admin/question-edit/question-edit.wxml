@@ -1,0 +1,65 @@
+<!--pages/admin/question-edit/question-edit.wxml-->
+<view class="edit-page">
+  <view class="form-card">
+    <!-- 题型 -->
+    <view class="form-row">
+      <text class="form-label">题型</text>
+      <picker mode="selector" range="{{typeOptions}}" range-key="name" bindchange="onTypeChange" value="{{typeIndex}}">
+        <view class="form-picker">{{typeOptions[typeIndex].name}} ▾</view>
+      </picker>
+    </view>
+
+    <!-- 科目 -->
+    <view class="form-row">
+      <text class="form-label">科目</text>
+      <view class="form-picker">{{form.categoryName}}</view>
+    </view>
+
+    <!-- 题干 -->
+    <view class="form-block">
+      <text class="form-label">题干内容</text>
+      <textarea class="form-textarea" placeholder="请输入题目内容" value="{{form.title}}" bindinput="onTitleInput" maxlength="500" auto-height />
+    </view>
+
+    <!-- 选项 -->
+    <view class="form-block">
+      <text class="form-label">选项内容</text>
+      <view class="option-row" wx:for="{{form.options}}" wx:key="index">
+        <text class="opt-letter">{{['A','B','C','D','E'][index]}}</text>
+        <input class="opt-input" placeholder="选项{{['A','B','C','D','E'][index]}}" value="{{item}}" data-index="{{index}}" bindinput="onOptionInput" />
+      </view>
+    </view>
+
+    <!-- 正确答案 -->
+    <view class="form-block">
+      <text class="form-label">正确答案</text>
+      <view class="answer-row" wx:if="{{form.type !== 'multi'}}">
+        <view
+          class="answer-btn {{form.answer === index ? 'active' : ''}}"
+          wx:for="{{form.options}}"
+          wx:key="index"
+          data-index="{{index}}"
+          bindtap="onAnswerSelect"
+        >{{['A','B','C','D','E'][index]}}</view>
+      </view>
+      <view class="answer-row" wx:if="{{form.type === 'multi'}}">
+        <view
+          class="answer-btn {{form.answer.indexOf(index) > -1 ? 'active' : ''}}"
+          wx:for="{{form.options}}"
+          wx:key="index"
+          data-index="{{index}}"
+          bindtap="onMultiAnswerToggle"
+        >{{['A','B','C','D','E'][index]}}</view>
+      </view>
+      <view class="answer-tip" wx:if="{{form.type === 'multi'}}">点击多个选项设置正确答案</view>
+    </view>
+
+    <!-- 解析 -->
+    <view class="form-block">
+      <text class="form-label">解析（选填）</text>
+      <textarea class="form-textarea" placeholder="题目解析说明" value="{{form.analysis}}" bindinput="onAnalysisInput" maxlength="300" auto-height />
+    </view>
+  </view>
+
+  <button class="btn-primary" bindtap="onSave" loading="{{saving}}">保存</button>
+</view>

@@ -1,0 +1,36 @@
+<!--pages/admin/login/login.wxml-->
+<view class="admin-login">
+  <view class="login-header">
+    <view class="lock-icon">🔐</view>
+    <view class="title">管理后台</view>
+    <view class="subtitle">新越职业技能培训学校 · 管理员入口</view>
+  </view>
+
+  <!-- 手动输入手机号（模拟器和真机通用） -->
+  <view class="manual-form">
+    <input
+      class="phone-input"
+      type="number"
+      maxlength="11"
+      placeholder="请输入管理员手机号"
+      value="{{phone}}"
+      bindinput="onPhoneInput"
+    />
+    <button class="btn-primary" bindtap="onManualLogin" loading="{{loading}}">登录</button>
+  </view>
+
+  <!-- 微信手机号一键登录（仅真机） -->
+  <view class="divider">
+    <view class="divider-line"></view>
+    <text class="divider-text">或</text>
+    <view class="divider-line"></view>
+  </view>
+  <button class="btn-wx" open-type="getPhoneNumber" bindgetphonenumber="onGetPhone">
+    微信手机号一键登录（仅真机）
+  </button>
+
+  <view class="notice">
+    <text>⚠️ 仅授权手机号可登录管理后台</text>
+    <text>如需开通权限，请联系超级管理员在 admins 集合中添加白名单</text>
+  </view>
+</view>

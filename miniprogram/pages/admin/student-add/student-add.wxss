@@ -1,0 +1,26 @@
+/* pages/admin/student-add/student-add.wxss */
+.edit-page { padding: 24rpx; min-height: 100vh; background: #f5f6f8; }
+.form-card { background: #fff; border-radius: 20rpx; padding: 10rpx 30rpx; margin-bottom: 30rpx; }
+
+.form-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 0;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+.form-row:last-child { border-bottom: none; }
+.form-label { font-size: 30rpx; font-weight: 600; color: #333; width: 160rpx; flex-shrink: 0; }
+.form-input { flex: 1; font-size: 28rpx; text-align: right; }
+.form-picker {
+  font-size: 28rpx;
+  color: #1989fa;
+  padding: 10rpx 24rpx;
+  background: #f0f7ff;
+  border-radius: 8rpx;
+}
+.expire-info {
+  padding: 20rpx 0;
+  font-size: 26rpx;
+  color: #ff9800;
+}
