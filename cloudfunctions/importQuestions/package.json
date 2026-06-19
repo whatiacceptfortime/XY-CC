@@ -1,0 +1,9 @@
+{
+  "name": "importQuestions",
+  "version": "1.0.0",
+  "description": "\u65b0\u8d8a\u7b54\u9898 - \u4e00\u952e\u5bfc\u5165\u9898\u5e93",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}
