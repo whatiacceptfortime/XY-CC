@@ -28,8 +28,54 @@
   padding: 4rpx 14rpx;
   border-radius: 8rpx;
 }
-.w-time { font-size: 22rpx; color: #bbb; flex: 1; }
-.w-arrow { font-size: 24rpx; color: #ccc; }
+.w-time { font-size: 22rpx; color: #bbb; flex: 1; text-align: right; }
+
+/* 展开详情 */
+.w-detail {
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+.detail-options { margin-bottom: 16rpx; }
+.detail-option {
+  display: flex;
+  align-items: flex-start;
+  padding: 10rpx 0;
+}
+.opt-letter {
+  width: 40rpx; height: 40rpx;
+  line-height: 40rpx;
+  text-align: center;
+  font-size: 22rpx;
+  color: #888;
+  background: #f5f5f5;
+  border-radius: 50%;
+  margin-right: 16rpx;
+  flex-shrink: 0;
+}
+.opt-letter.correct { background: #07c160; color: #fff; }
+.opt-letter.wrong { background: #ee0a24; color: #fff; }
+.opt-text { font-size: 26rpx; color: #666; flex: 1; line-height: 40rpx; }
+.opt-text.correct { color: #07c160; font-weight: 600; }
+.opt-text.wrong { color: #ee0a24; }
+
+.detail-answer {
+  display: flex;
+  align-items: center;
+  padding: 8rpx 0;
+}
+.answer-label { font-size: 26rpx; color: #888; }
+.answer-correct { font-size: 28rpx; color: #07c160; font-weight: 600; }
+.answer-wrong { font-size: 28rpx; color: #ee0a24; font-weight: 600; }
+
+.detail-analysis {
+  margin-top: 16rpx;
+  padding: 16rpx;
+  background: #fffbe8;
+  border-radius: 10rpx;
+}
+.analysis-label { font-size: 26rpx; font-weight: 600; display: block; margin-bottom: 8rpx; }
+.analysis-text { font-size: 24rpx; color: #666; line-height: 1.6; }
 
 .empty { padding: 180rpx 0; text-align: center; }
 .empty-emoji { font-size: 100rpx; }

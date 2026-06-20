@@ -10,21 +10,41 @@
       wx:for="{{wrongList}}"
       wx:key="_id"
       data-id="{{item._id}}"
-      data-categoryid="{{item.categoryId}}"
-      bindtap="onRetryQuestion"
+      data-index="{{index}}"
+      bindtap="onToggleDetail"
     >
       <view class="w-title">{{item.title}}</view>
       <view class="w-meta">
-        <text class="w-tag">{{item.categoryId}}</text>
+        <text class="w-tag">{{item.type === 'multi' ? '多选' : item.type === 'judge' ? '判断' : '单选'}}</text>
         <text class="w-time" wx:if="{{item.timeStr}}">{{item.timeStr}}</text>
-        <text class="w-arrow">重做 ›</text>
+      </view>
+      <!-- 展开详情 -->
+      <view class="w-detail" wx:if="{{expandedIndex === index}}">
+        <view class="detail-options">
+          <view class="detail-option" wx:for="{{item.options}}" wx:for-item="opt" wx:for-index="oi" wx:key="oi">
+            <text class="opt-letter {{item.type === 'multi' && item.correctAnswer.indexOf(oi) > -1 ? 'correct' : ''}} {{item.type === 'multi' && item.userAnswer.indexOf(oi) > -1 && item.correctAnswer.indexOf(oi) === -1 ? 'wrong' : ''}}">{{['A','B','C','D','E'][oi]}}</text>
+            <text class="opt-text {{item.type === 'multi' && item.correctAnswer.indexOf(oi) > -1 ? 'correct' : ''}} {{item.type === 'multi' && item.userAnswer.indexOf(oi) > -1 && item.correctAnswer.indexOf(oi) === -1 ? 'wrong' : ''}}">{{opt}}</text>
+          </view>
+        </view>
+        <view class="detail-answer">
+          <text class="answer-label">正确答案：</text>
+          <text class="answer-correct">{{item.type === 'multi' ? formatMulti(item.correctAnswer) : ['A','B','C','D','E'][item.correctAnswer]}}</text>
+        </view>
+        <view class="detail-answer">
+          <text class="answer-label">你的答案：</text>
+          <text class="answer-wrong">{{item.type === 'multi' ? formatMulti(item.userAnswer) : ['A','B','C','D','E'][item.userAnswer]}}</text>
+        </view>
+        <view class="detail-analysis" wx:if="{{item.analysis}}">
+          <text class="analysis-label">💡 解析</text>
+          <text class="analysis-text">{{item.analysis}}</text>
+        </view>
       </view>
     </view>
   </block>
 
   <view class="empty" wx:if="{{isEmpty}}">
     <view class="empty-emoji">📝</view>
-    <view class="empty-text">还没有错题</view>
+    <view class="empty-text">{{loading ? '加载中...' : '还没有错题'}}</view>
     <view class="empty-tip">继续练习，错题会自动收录到这里</view>
   </view>
 </view>

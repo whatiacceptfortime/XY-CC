@@ -196,10 +196,17 @@ Page({
 
     // 提交记录到云端
     if (app.globalData.cloudReady) {
+      const formattedAnswers = this._questions.map((q, i) => {
+        const a = answers[i]
+        if (!a || !a.answered) return -1
+        if (q.type === 'multi') return a.selected
+        return a.selected[0] !== undefined ? a.selected[0] : -1
+      })
+
       api.submitAnswer({
         categoryId: this._categoryId,
         questions: this._questions,
-        answers: answers.map(a => a ? a.selected[0] !== undefined ? a.selected : -1 : -1),
+        answers: formattedAnswers,
         correctCount,
         total
       }).catch(() => {})

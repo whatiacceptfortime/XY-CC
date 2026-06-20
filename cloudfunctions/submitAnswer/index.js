@@ -16,7 +16,6 @@ exports.main = async (event, context) => {
         categoryId,
         total,
         correctCount,
-        answers,
         createTime: db.serverDate()
       }
     })
@@ -24,13 +23,31 @@ exports.main = async (event, context) => {
     // 2. 自动收录错题
     const wrongQuestions = []
     questions.forEach((q, i) => {
-      if (answers[i] !== -1 && answers[i] !== q.answer) {
+      const userAnswer = answers[i]
+      // 跳过未作答
+      if (userAnswer === -1 || userAnswer === undefined || userAnswer === null) return
+
+      // 判断是否答对
+      let isCorrect = false
+      if (q.type === 'multi') {
+        // 多选：排序后比较数组
+        const userArr = [...userAnswer].sort((a, b) => a - b)
+        const correctArr = [...q.answer].sort((a, b) => a - b)
+        isCorrect = JSON.stringify(userArr) === JSON.stringify(correctArr)
+      } else {
+        // 单选/判断：比较数字
+        isCorrect = userAnswer === q.answer
+      }
+
+      if (!isCorrect) {
         wrongQuestions.push({
           openid: wxContext.OPENID,
-          questionId: q.id,
+          questionId: q.id || q._id || '',
           title: q.title,
           categoryId,
-          userAnswer: answers[i],
+          type: q.type,
+          options: q.options,
+          userAnswer,
           correctAnswer: q.answer,
           analysis: q.analysis || '',
           createTime: db.serverDate()
@@ -38,12 +55,12 @@ exports.main = async (event, context) => {
       }
     })
 
-    // 批量写入错题（逐条 add，云数据库单次批量上限 20）
+    // 批量写入错题
     for (const wq of wrongQuestions) {
       await db.collection('wrong_questions').add({ data: wq })
     }
 
-    return { success: true, wrongCount: wrongQuestions.length }
+    return { success: true, wrongCount: wrongQuestions.length, total }
   } catch (e) {
     console.error('submitAnswer error:', e)
     return { success: false, error: e.message }

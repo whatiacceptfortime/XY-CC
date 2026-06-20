@@ -192,10 +192,30 @@ Page({
 
     // 静默提交答题记录到云端（失败不阻断）
     if (app.globalData.cloudReady) {
+      // answers 格式：每题为选中选项索引（单选为数字，多选为数组，未答为-1）
+      const answers = this.data.answers.map(a => {
+        if (!a || !a.answered) return -1
+        if (this.data.isMulti || Array.isArray(a.selected)) {
+          return a.selected.length === 1 ? a.selected[0] : a.selected
+        }
+        return a.selected[0] !== undefined ? a.selected[0] : -1
+      })
+
+      // 重新计算每题是否多选
+      const formattedAnswers = this._questions.map((q, i) => {
+        const a = this.data.answers[i]
+        if (!a || !a.answered) return -1
+        // 多选题传数组，单选/判断传数字
+        if (q.type === 'multi') {
+          return a.selected
+        }
+        return a.selected[0] !== undefined ? a.selected[0] : -1
+      })
+
       api.submitAnswer({
         categoryId: this._categoryId,
         questions: this._questions,
-        answers: this.data.answers.map(a => a ? a.selected[0] !== undefined ? a.selected : -1 : -1),
+        answers: formattedAnswers,
         correctCount,
         total
       }).catch(() => {})
