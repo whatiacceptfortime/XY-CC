@@ -1,36 +1,70 @@
 <!--pages/admin/students/students.wxml-->
 <view class="students-page">
+  <!-- 顶部操作栏 -->
   <view class="filter-bar">
-    <view class="filter-search">
-      <input class="search-input" placeholder="搜索姓名/手机号" value="{{keyword}}" bindinput="onSearch" bindconfirm="onSearchConfirm" confirm-type="search" />
+    <view class="total-info">题库共 {{totalQuestions}} 题 · {{list.length}} 位学员</view>
+    <view class="action-btns">
+      <view class="action-btn export" bindtap="onExport">导出</view>
+      <view class="action-btn import" bindtap="onImport">批量导入</view>
     </view>
-    <view class="import-btn" bindtap="onImport">批量导入</view>
   </view>
 
-  <view class="total-bar">共 {{total}} 位学员</view>
-
+  <!-- 学员列表 -->
   <view class="student-list">
-    <view class="student-item" wx:for="{{list}}" wx:key="_id" data-item="{{item}}" bindtap="onEdit">
-      <view class="stu-avatar {{item.status === 'expired' ? 'expired' : ''}}">{{item.name ? item.name.charAt(0) : '?'}}</view>
-      <view class="stu-info">
-        <view class="stu-name">{{item.name}} <text class="stu-status {{item.status}}">{{item.status === 'expired' ? '已过期' : '有效'}}</text></view>
-        <view class="stu-meta">
-          <text>{{item.phone}}</text>
-        </view>
-        <view class="stu-time">到期：{{item.expireDateStr}}</view>
+    <view class="student-item" wx:for="{{list}}" wx:key="_id">
+      <view class="stu-left">
+        <view class="stu-avatar {{item.status === 'expired' ? 'expired' : ''}}">{{item.name ? item.name.charAt(0) : '?'}}</view>
       </view>
-      <view class="stu-arrow">编辑 ›</view>
+      <view class="stu-info">
+        <view class="stu-name-row">
+          <text class="stu-name">{{item.name}}</text>
+          <text class="stu-status {{item.status}}">{{item.status === 'expired' ? '已过期' : '有效'}}</text>
+        </view>
+        <view class="stu-phone">{{item.phone}}</view>
+        <view class="stu-stats">
+          <view class="stat-block">
+            <text class="stat-val">{{item.uniqueAnswered}}</text>
+            <text class="stat-lbl">/ {{totalQuestions}}题</text>
+          </view>
+          <view class="stat-block">
+            <text class="stat-val blue">{{item.coverage}}%</text>
+            <text class="stat-lbl">覆盖率</text>
+          </view>
+          <view class="stat-block">
+            <text class="stat-val green">{{item.correctRate}}%</text>
+            <text class="stat-lbl">正确率</text>
+          </view>
+          <view class="stat-block">
+            <text class="stat-val">{{item.totalAnswered}}</text>
+            <text class="stat-lbl">答题次数</text>
+          </view>
+        </view>
+        <view class="stu-time">最近答题：{{item.lastTimeStr}} · 到期：{{item.expireDateStr}}</view>
+      </view>
     </view>
   </view>
 
   <view class="empty" wx:if="{{!loading && list.length === 0}}">
     <view class="empty-icon">👥</view>
     <view>暂无学员</view>
-    <view class="empty-tip">点击右下角 + 录入学员</view>
   </view>
 
   <view class="loading" wx:if="{{loading}}">加载中...</view>
-  <view class="loading" wx:if="{{!loading && !hasMore && list.length > 0}}">没有更多了</view>
 
   <view class="fab" bindtap="onAdd">+</view>
+
+  <!-- 导出弹窗 -->
+  <view class="export-modal" wx:if="{{showExport}}" bindtap="onCloseExport">
+    <view class="export-content" catchtap="">
+      <view class="export-title">学员答题情况（CSV）</view>
+      <view class="export-tip">长按下方文本全选复制，粘贴到 Excel 即可</view>
+      <scroll-view scroll-y class="export-textarea">
+        <text selectable>{{csvText}}</text>
+      </scroll-view>
+      <view class="export-actions">
+        <button class="btn-copy" bindtap="onCopyCSV">一键复制</button>
+        <button class="btn-close" bindtap="onCloseExport">关闭</button>
+      </view>
+    </view>
+  </view>
 </view>

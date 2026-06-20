@@ -80,6 +80,7 @@ module.exports = {
   adminSaveQuestion: (params) => callCloud('adminSaveQuestion', params),
   adminDeleteQuestion: (id) => callCloud('adminDeleteQuestion', { _id: id }),
   adminGetStudents: (params) => callCloud('adminGetStudents', params),
+  adminGetStudentDetail: () => callCloud('adminGetStudentDetail'),
   adminGetStats: () => callCloud('adminGetStats'),
   adminBatchImportStudents: (params) => callCloud('adminBatchImportStudents', params)
 }

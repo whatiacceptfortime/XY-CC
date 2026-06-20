@@ -17,16 +17,20 @@ exports.main = async (event, context) => {
   })
 
   try {
+    // 提取本次答题的题目ID列表（用于去重统计）
+    const questionIds = (questions || []).map(q => q.id || q._id || '').filter(id => id)
+
     // 1. 记录本次答题成绩（_openid 由系统自动写入，不需手动加）
     const recordRes = await db.collection('records').add({
       data: {
         categoryId: categoryId || '',
         total: total || 0,
         correctCount: correctCount || 0,
+        questionIds: questionIds,
         createTime: db.serverDate()
       }
     })
-    console.log('records 写入成功, _id:', recordRes._id)
+    console.log('records 写入成功, _id:', recordRes._id, '题数:', questionIds.length)
 
     // 2. 自动收录错题
     let wrongCount = 0

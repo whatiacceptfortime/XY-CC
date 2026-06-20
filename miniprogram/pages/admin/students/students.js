@@ -1,69 +1,80 @@
-// pages/admin/students/students.js - 学员管理
+// pages/admin/students/students.js - 学员答题详情
 const api = require('../../../utils/api')
 
 Page({
   data: {
     list: [],
+    totalQuestions: 0,
     loading: true,
-    page: 1,
-    pageSize: 20,
-    total: 0,
-    hasMore: true,
-    keyword: ''
+    showExport: false,
+    csvText: ''
   },
 
   onLoad() {
-    this.loadList(true)
+    this.loadDetail()
   },
 
   onShow() {
-    // 从录入页返回时刷新
     if (this._needRefresh) {
-      this.loadList(true)
+      this.loadDetail()
       this._needRefresh = false
     }
   },
 
-  async loadList(reset = false) {
-    if (reset) {
-      this.setData({ page: 1, list: [], hasMore: true })
-    }
+  async loadDetail() {
     this.setData({ loading: true })
-
     try {
-      const res = await api.adminGetStudents({
-        page: this.data.page,
-        pageSize: this.data.pageSize,
-        keyword: this.data.keyword
-      })
+      const res = await api.adminGetStudentDetail()
       if (res.code === 0) {
         this.setData({
-          list: reset ? res.list : [...this.data.list, ...res.list],
-          total: res.total,
-          hasMore: res.hasMore,
+          list: res.list,
+          totalQuestions: res.totalQuestions,
           loading: false
         })
       } else {
+        wx.showToast({ title: res.msg || '加载失败', icon: 'none' })
         this.setData({ loading: false })
       }
     } catch (e) {
       this.setData({ loading: false })
+      wx.showToast({ title: '网络异常', icon: 'none' })
     }
   },
 
-  onSearch(e) {
-    this.setData({ keyword: e.detail.value })
-  },
-
-  onSearchConfirm() {
-    this.loadList(true)
-  },
-
-  onReachBottom() {
-    if (this.data.hasMore && !this.data.loading) {
-      this.setData({ page: this.data.page + 1 })
-      this.loadList()
+  /** 导出 CSV */
+  onExport() {
+    const { list, totalQuestions } = this.data
+    if (list.length === 0) {
+      wx.showToast({ title: '暂无数据', icon: 'none' })
+      return
     }
+
+    // 生成 CSV
+    let csv = '姓名,手机号,已答题数(去重),题库总量,覆盖率(%),正确率(%),答题次数,最近答题,状态\n'
+    list.forEach(s => {
+      csv += `${s.name},${s.phone},${s.uniqueAnswered},${totalQuestions},${s.coverage},${s.correctRate},${s.totalAnswered},${s.lastTimeStr},${s.status === 'expired' ? '已过期' : '有效'}\n`
+    })
+
+    this.setData({ showExport: true, csvText: csv })
+  },
+
+  /** 复制到剪贴板 */
+  onCopyCSV() {
+    wx.setClipboardData({
+      data: this.data.csvText,
+      success: () => {
+        wx.showToast({ title: '已复制，粘贴到Excel', icon: 'success', duration: 2000 })
+      }
+    })
+  },
+
+  onCloseExport() {
+    this.setData({ showExport: false })
+  },
+
+  onPullDownRefresh() {
+    this.loadDetail()
+    wx.stopPullDownRefresh()
   },
 
   onAdd() {
@@ -74,11 +85,5 @@ Page({
   onImport() {
     this._needRefresh = true
     wx.navigateTo({ url: '/pages/admin/student-import/student-import' })
-  },
-
-  onEdit(e) {
-    const data = encodeURIComponent(JSON.stringify(e.currentTarget.dataset.item))
-    this._needRefresh = true
-    wx.navigateTo({ url: `/pages/admin/student-add/student-add?id=1&data=${data}` })
   }
 })

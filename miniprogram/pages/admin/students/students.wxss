@@ -1,64 +1,97 @@
 /* pages/admin/students/students.wxss */
 .students-page { background: #f5f6f8; min-height: 100vh; padding-bottom: 120rpx; }
 
-.filter-bar { padding: 20rpx; background: #fff; position: sticky; top: 0; z-index: 10; display: flex; gap: 16rpx; align-items: center; }
-.filter-search { flex: 1; }
-.search-input {
-  background: #f0f2f5;
-  border-radius: 8rpx;
-  padding: 14rpx 20rpx;
-  font-size: 26rpx;
+/* 顶部操作栏 */
+.filter-bar {
+  padding: 20rpx 24rpx;
+  background: #fff;
+  position: sticky; top: 0; z-index: 10;
+  display: flex; justify-content: space-between; align-items: center;
 }
-.import-btn {
-  font-size: 24rpx;
-  color: #1989fa;
-  padding: 12rpx 24rpx;
-  background: #e8f3ff;
-  border-radius: 8rpx;
-  white-space: nowrap;
-  flex-shrink: 0;
+.total-info { font-size: 24rpx; color: #666; }
+.action-btns { display: flex; gap: 12rpx; }
+.action-btn {
+  font-size: 24rpx; padding: 10rpx 20rpx; border-radius: 8rpx;
 }
-.total-bar { padding: 20rpx 30rpx; font-size: 26rpx; color: #888; }
+.action-btn.export { color: #1989fa; background: #e8f3ff; }
+.action-btn.import { color: #07c160; background: #e8f8ee; }
 
+/* 学员列表 */
 .student-list { padding: 0 24rpx; }
 .student-item {
   display: flex;
-  align-items: center;
   background: #fff;
   border-radius: 16rpx;
   padding: 28rpx;
   margin-bottom: 16rpx;
 }
+.stu-left { margin-right: 24rpx; }
 .stu-avatar {
-  width: 88rpx; height: 88rpx;
-  line-height: 88rpx;
-  text-align: center;
-  background: linear-gradient(135deg, #1989fa, #07c160);
-  color: #fff;
-  border-radius: 50%;
-  font-size: 32rpx;
-  font-weight: 600;
-  margin-right: 24rpx;
-  flex-shrink: 0;
+  width: 80rpx; height: 80rpx; line-height: 80rpx;
+  text-align: center; background: linear-gradient(135deg, #1989fa, #07c160);
+  color: #fff; border-radius: 50%; font-size: 32rpx; font-weight: 600;
 }
 .stu-avatar.expired { background: #ccc; }
+
 .stu-info { flex: 1; }
-.stu-name { font-size: 30rpx; font-weight: 600; color: #222; display: flex; align-items: center; gap: 12rpx; }
+.stu-name-row { display: flex; align-items: center; gap: 12rpx; }
+.stu-name { font-size: 30rpx; font-weight: 600; color: #222; }
 .stu-status { font-size: 20rpx; padding: 2rpx 12rpx; border-radius: 6rpx; }
 .stu-status.active { color: #07c160; background: #e8f8ee; }
 .stu-status.expired { color: #ee0a24; background: #fdeaea; }
-.stu-meta { font-size: 24rpx; color: #888; margin-top: 6rpx; }
-.stu-time { font-size: 22rpx; color: #bbb; margin-top: 4rpx; }
-.stu-arrow { font-size: 24rpx; color: #ccc; flex-shrink: 0; }
+.stu-phone { font-size: 24rpx; color: #888; margin-top: 6rpx; }
 
+/* 统计数据 */
+.stu-stats {
+  display: flex; gap: 20rpx; margin-top: 16rpx;
+  padding: 16rpx; background: #f8f9fa; border-radius: 12rpx;
+}
+.stat-block { display: flex; flex-direction: column; align-items: center; flex: 1; }
+.stat-val { font-size: 32rpx; font-weight: bold; color: #333; }
+.stat-val.blue { color: #1989fa; }
+.stat-val.green { color: #07c160; }
+.stat-lbl { font-size: 20rpx; color: #999; margin-top: 4rpx; }
+
+.stu-time { font-size: 22rpx; color: #bbb; margin-top: 12rpx; }
+
+/* 空状态 */
 .empty { text-align: center; padding: 120rpx 0; color: #999; font-size: 28rpx; }
 .empty-icon { font-size: 80rpx; margin-bottom: 20rpx; }
-.empty-tip { font-size: 24rpx; color: #bbb; margin-top: 12rpx; }
 .loading { text-align: center; padding: 30rpx; color: #999; font-size: 24rpx; }
+
+/* 悬浮按钮 */
 .fab {
   position: fixed; right: 40rpx; bottom: 120rpx;
   width: 100rpx; height: 100rpx; line-height: 100rpx;
   text-align: center; background: #1989fa; color: #fff;
   font-size: 56rpx; border-radius: 50%;
   box-shadow: 0 8rpx 24rpx rgba(25,137,250,0.4); z-index: 100;
+}
+
+/* 导出弹窗 */
+.export-modal {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5); z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+}
+.export-content {
+  width: 90%; max-height: 80vh; background: #fff;
+  border-radius: 20rpx; padding: 30rpx; display: flex; flex-direction: column;
+}
+.export-title { font-size: 34rpx; font-weight: bold; text-align: center; }
+.export-tip { font-size: 24rpx; color: #999; text-align: center; margin: 12rpx 0; }
+.export-textarea {
+  flex: 1; min-height: 400rpx; max-height: 50vh;
+  background: #f8f9fa; border-radius: 12rpx; padding: 20rpx;
+  font-size: 22rpx; line-height: 1.8; overflow-y: auto;
+  white-space: pre-wrap; word-break: break-all;
+}
+.export-actions { display: flex; gap: 20rpx; margin-top: 20rpx; }
+.btn-copy {
+  flex: 1; background: #1989fa; color: #fff;
+  border-radius: 40rpx; height: 80rpx; line-height: 80rpx; font-size: 28rpx;
+}
+.btn-close {
+  flex: 1; background: #f0f2f5; color: #666;
+  border-radius: 40rpx; height: 80rpx; line-height: 80rpx; font-size: 28rpx;
 }
