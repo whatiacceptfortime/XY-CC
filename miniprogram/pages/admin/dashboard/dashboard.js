@@ -50,13 +50,21 @@ Page({
       case 'logout':
         wx.showModal({
           title: '提示',
-          content: '确定退出管理后台吗？',
+          content: '确定退出登录吗？',
           success: r => {
             if (r.confirm) {
               const app = getApp()
+              // 清除所有登录态（内存+缓存）
+              wx.removeStorageSync('adminInfo')
+              wx.removeStorageSync('studentInfo')
               app.globalData.isAdmin = false
               app.globalData.adminInfo = null
-              wx.navigateBack()
+              app.globalData.studentInfo = null
+              app.globalData.isLoggedIn = false
+              wx.showToast({ title: '已退出', icon: 'success' })
+              setTimeout(() => {
+                wx.reLaunch({ url: '/pages/login/login' })
+              }, 800)
             }
           }
         })

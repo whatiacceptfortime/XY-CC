@@ -114,7 +114,7 @@ Page({
               app.globalData.isLoggedIn = false
               wx.showToast({ title: '已退出', icon: 'success' })
               setTimeout(() => {
-                wx.redirectTo({ url: '/pages/login/login' })
+                wx.reLaunch({ url: '/pages/login/login' })
               }, 800)
             }
           }

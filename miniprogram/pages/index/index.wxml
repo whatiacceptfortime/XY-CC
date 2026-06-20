@@ -22,6 +22,16 @@
     <text class="notice-text">欢迎使用新越答题小程序，每日练习提升技能！</text>
   </view>
 
+  <!-- 考试入口 -->
+  <view class="exam-entry card" bindtap="onTapExam">
+    <view class="exam-icon">📝</view>
+    <view class="exam-info">
+      <view class="exam-title">模拟考试</view>
+      <view class="exam-desc">50题 · 限时30分钟 · 自动判分</view>
+    </view>
+    <view class="exam-arrow">开始考试 ›</view>
+  </view>
+
   <!-- 科目列表 -->
   <view class="section-title">选择科目开始练习</view>
   <view class="category-list">

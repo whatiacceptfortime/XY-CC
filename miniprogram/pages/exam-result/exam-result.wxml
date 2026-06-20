@@ -1,0 +1,46 @@
+<!--pages/exam-result/exam-result.wxml-->
+<view class="result-page">
+  <view class="score-card card">
+    <view class="score-emoji">{{passed ? '🎉' : '📚'}}</view>
+    <view class="score-title">{{name}} · 模拟考试</view>
+
+    <view class="score-circle {{passed ? 'pass' : 'fail'}}">
+      <text class="score-rate">{{rate}}</text>
+      <text class="score-unit">分</text>
+    </view>
+
+    <view class="pass-tag {{passed ? 'pass' : 'fail'}}">
+      {{passed ? '✅ 合格' : '❌ 未达标（60分及格）'}}
+    </view>
+
+    <view class="score-detail">
+      <view class="detail-item">
+        <text class="d-num correct">{{correct}}</text>
+        <text class="d-label">答对</text>
+      </view>
+      <view class="detail-divider"></view>
+      <view class="detail-item">
+        <text class="d-num wrong">{{total - correct}}</text>
+        <text class="d-label">答错</text>
+      </view>
+      <view class="detail-divider"></view>
+      <view class="detail-item">
+        <text class="d-num">{{total - answered}}</text>
+        <text class="d-label">未答</text>
+      </view>
+    </view>
+
+    <view class="meta-row">
+      <text class="meta-item">⏱ 用时 {{timeStr}}</text>
+      <text class="meta-item">📊 共 {{total}} 题</text>
+    </view>
+
+    <view class="comment">{{comment}}</view>
+  </view>
+
+  <view class="actions">
+    <button class="action-btn primary" bindtap="onRetry">再考一次</button>
+    <button class="action-btn" bindtap="onWrongBook">查看错题本</button>
+    <button class="action-btn" bindtap="onHome">返回首页</button>
+  </view>
+</view>

@@ -1,0 +1,72 @@
+<!--pages/exam/exam.wxml-->
+<!-- 考试准备页 -->
+<view class="exam-prep" wx:if="{{!started}}">
+  <view class="prep-card">
+    <view class="prep-icon">📝</view>
+    <view class="prep-title">模拟考试</view>
+    <view class="prep-subtitle">{{categoryName}}</view>
+    <view class="prep-info">
+      <view class="info-item">
+        <text class="info-num">{{questionCount}}</text>
+        <text class="info-label">题目数量</text>
+      </view>
+      <view class="info-item">
+        <text class="info-num">30</text>
+        <text class="info-label">分钟</text>
+      </view>
+    </view>
+    <view class="prep-tips">
+      <view class="tip-item">📋 共 {{questionCount}} 道题，限时 30 分钟</view>
+      <view class="tip-item">⏰ 到时间自动提交</view>
+      <view class="tip-item">✅ 可随时提交，未答计错</view>
+    </view>
+    <button class="btn-primary" bindtap="startExam">开始考试</button>
+  </view>
+</view>
+
+<!-- 考试答题页 -->
+<view class="exam-page" wx:if="{{started && !finished}}">
+  <!-- 顶部倒计时 -->
+  <view class="exam-header">
+    <view class="timer {{timeLeft < 300 ? 'urgent' : ''}}">
+      <text class="timer-icon">⏱</text>
+      <text class="timer-text">{{timeStr}}</text>
+    </view>
+    <view class="progress-text">{{currentIndex + 1}}/{{total}}</view>
+    <view class="submit-btn-top" bindtap="submitExam">交卷</view>
+  </view>
+
+  <!-- 题目区 -->
+  <view class="question-card card" wx:if="{{question}}">
+    <view class="q-header">
+      <text class="type-tag {{question.type}}">{{question.type === 'judge' ? '判断' : question.type === 'multi' ? '多选' : '单选'}}</text>
+      <text class="q-tip" wx:if="{{isMulti}}">可多选</text>
+    </view>
+    <view class="q-title">{{question.title}}</view>
+
+    <view class="options">
+      <view
+        class="option {{optionStates[index]}}"
+        wx:for="{{question.options}}"
+        wx:key="index"
+        data-index="{{index}}"
+        bindtap="onTapOption"
+      >
+        <text class="opt-label">{{['A','B','C','D','E'][index]}}</text>
+        <text class="opt-text">{{item}}</text>
+      </view>
+    </view>
+
+    <button class="confirm-btn" wx:if="{{isMulti && !answers[currentIndex].answered}}" bindtap="onConfirmMulti">
+      确认作答
+    </button>
+  </view>
+
+  <!-- 底部操作 -->
+  <view class="bottom-bar">
+    <button class="nav-btn {{currentIndex === 0 ? 'disabled' : ''}}" bindtap="onPrev" disabled="{{currentIndex === 0}}">上一题</button>
+    <button class="nav-btn primary" bindtap="onNext">
+      {{currentIndex === total - 1 ? '交卷' : '下一题'}}
+    </button>
+  </view>
+</view>

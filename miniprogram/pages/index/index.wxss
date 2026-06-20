@@ -31,6 +31,19 @@
 }
 .notice-text { font-size: 26rpx; color: #666; }
 
+/* 考试入口 */
+.exam-entry {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #1a1a2e, #16213e) !important;
+  margin-bottom: 20rpx;
+}
+.exam-icon { font-size: 52rpx; margin-right: 24rpx; }
+.exam-info { flex: 1; }
+.exam-title { font-size: 34rpx; font-weight: bold; color: #fff; }
+.exam-desc { font-size: 24rpx; color: rgba(255,255,255,0.6); margin-top: 6rpx; }
+.exam-arrow { font-size: 26rpx; color: #1989fa; white-space: nowrap; }
+
 /* 科目列表 */
 .category-list { margin-top: 10rpx; }
 .category-item {

@@ -79,5 +79,13 @@ Page({
     wx.navigateTo({
       url: `/pages/practice/practice?categoryId=${id}&name=${encodeURIComponent(name)}`
     })
+  },
+
+  /** 进入模拟考试 */
+  onTapExam() {
+    const cat = this.data.categories[0] || { id: 'c01', name: '叉车司机' }
+    wx.navigateTo({
+      url: `/pages/exam/exam?categoryId=${cat.id}&name=${encodeURIComponent(cat.name)}`
+    })
   }
 })
