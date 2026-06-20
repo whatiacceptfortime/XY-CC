@@ -95,8 +95,17 @@ Page({
       case 'contact':
         wx.showModal({
           title: '联系学校',
-          content: '咨询电话：请替换为学校电话\n地址：请替换为学校地址',
-          showCancel: false
+          content: '咨询电话：19957611799\n地址：浙江省台州市路桥区路北街道银安街689号二楼路桥区职业技能培训基地A001',
+          confirmText: '复制电话',
+          cancelText: '关闭',
+          success: (r) => {
+            if (r.confirm) {
+              wx.setClipboardData({
+                data: '19957611799',
+                success: () => wx.showToast({ title: '电话已复制', icon: 'success' })
+              })
+            }
+          }
         })
         break
       case 'logout':
