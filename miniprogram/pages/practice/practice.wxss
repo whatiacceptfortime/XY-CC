@@ -32,14 +32,7 @@
   gap: 16rpx;
   margin-bottom: 20rpx;
 }
-.type-tag {
-  font-size: 22rpx;
-  padding: 6rpx 16rpx;
-  border-radius: 8rpx;
-}
-.type-tag.single { color: #1989fa; background: #e8f3ff; }
-.type-tag.judge { color: #ff9800; background: #fff3e0; }
-.type-tag.multi { color: #722ed1; background: #f9f0ff; }
+.type-tag { flex-shrink: 0; }
 .q-tip { font-size: 22rpx; color: #999; }
 .q-title {
   font-size: 34rpx;
@@ -47,6 +40,7 @@
   line-height: 1.7;
   color: #222;
   margin-bottom: 30rpx;
+  word-break: break-all;
 }
 
 /* 选项 */

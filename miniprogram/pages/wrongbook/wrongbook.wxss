@@ -19,6 +19,7 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  word-break: break-all;
 }
 .w-meta { display: flex; justify-content: space-between; align-items: center; gap: 12rpx; }
 .w-tag {
@@ -55,7 +56,7 @@
 }
 .opt-letter.correct { background: #07c160; color: #fff; }
 .opt-letter.wrong { background: #ee0a24; color: #fff; }
-.opt-text { font-size: 26rpx; color: #666; flex: 1; line-height: 40rpx; }
+.opt-text { font-size: 26rpx; color: #666; flex: 1; min-width: 0; word-break: break-all; line-height: 40rpx; }
 .opt-text.correct { color: #07c160; font-weight: 600; }
 .opt-text.wrong { color: #ee0a24; }
 

@@ -43,7 +43,7 @@
           <view class="type-dot" style="background: {{typeColors[item.type]}}"></view>
           <text class="type-name">{{typeLabels[item.type]}}</text>
           <text class="type-count">{{item.count}} 题</text>
-          <text class="type-pct">{{stats.questionsCount ? (item.count / stats.questionsCount * 100) : 0}}%</text>
+          <text class="type-pct">{{item.pct}}%</text>
         </view>
       </view>
     </view>

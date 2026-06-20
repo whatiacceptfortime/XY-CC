@@ -17,7 +17,15 @@ Page({
     try {
       const res = await api.adminGetStats()
       if (res.code === 0) {
-        this.setData({ stats: res.stats, loading: false })
+        // 题型分布百分比取整
+        const stats = res.stats
+        if (stats.typeDistribution) {
+          stats.typeDistribution = stats.typeDistribution.map(t => ({
+            ...t,
+            pct: stats.questionsCount > 0 ? Math.round(t.count / stats.questionsCount * 100) : 0
+          }))
+        }
+        this.setData({ stats, loading: false })
       } else {
         this.setData({ loading: false })
       }

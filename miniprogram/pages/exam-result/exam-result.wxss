@@ -9,18 +9,16 @@
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   margin: 0 auto; position: relative;
 }
-.score-circle.pass { background: conic-gradient(#07c160 0deg, #07c160 3.6deg, #f0f0f0 3.6deg); }
-.score-circle.fail { background: conic-gradient(#ee0a24 0deg, #ee0a24 3.6deg, #f0f0f0 3.6deg); }
 .score-circle::before {
   content: ''; position: absolute; width: 190rpx; height: 190rpx;
   background: #fff; border-radius: 50%;
 }
 .score-rate { font-size: 72rpx; font-weight: bold; position: relative; z-index: 1; }
-.score-circle.pass .score-rate { color: #07c160; }
-.score-circle.fail .score-rate { color: #ee0a24; }
+.score-rate.pass { color: #07c160; }
+.score-rate.fail { color: #ee0a24; }
 .score-unit { font-size: 28rpx; position: relative; z-index: 1; margin-top: 10rpx; }
-.score-circle.pass .score-unit { color: #07c160; }
-.score-circle.fail .score-unit { color: #ee0a24; }
+.score-unit.pass { color: #07c160; }
+.score-unit.fail { color: #ee0a24; }
 
 .pass-tag {
   display: inline-block; font-size: 28rpx; padding: 12rpx 32rpx;

@@ -4,9 +4,9 @@
     <view class="score-emoji">{{passed ? '🎉' : '📚'}}</view>
     <view class="score-title">{{name}} · 模拟考试</view>
 
-    <view class="score-circle {{passed ? 'pass' : 'fail'}}">
-      <text class="score-rate">{{rate}}</text>
-      <text class="score-unit">分</text>
+    <view class="score-circle" style="background:conic-gradient({{passed ? '#07c160' : '#ee0a24'}} 0deg, {{passed ? '#07c160' : '#ee0a24'}} {{rate * 3.6}}deg, #eee {{rate * 3.6}}deg)">
+      <text class="score-rate {{passed ? 'pass' : 'fail'}}">{{rate}}</text>
+      <text class="score-unit {{passed ? 'pass' : 'fail'}}">分</text>
     </view>
 
     <view class="pass-tag {{passed ? 'pass' : 'fail'}}">

@@ -3,9 +3,9 @@
   <view class="score-card card">
     <view class="score-emoji">{{rate >= 90 ? '🏆' : rate >= 70 ? '👍' : rate >= 50 ? '📖' : '🌱'}}</view>
     <view class="score-title">{{name}} · 练习完成</view>
-    <view class="score-circle">
-      <text class="score-rate">{{rate}}</text>
-      <text class="score-unit">分</text>
+    <view class="score-circle" style="background:conic-gradient({{rate >= 60 ? '#07c160' : '#ee0a24'}} 0deg, {{rate >= 60 ? '#07c160' : '#ee0a24'}} {{rate * 3.6}}deg, #eee {{rate * 3.6}}deg)">
+      <text class="score-rate {{rate >= 60 ? 'pass' : 'fail'}}">{{rate}}</text>
+      <text class="score-unit {{rate >= 60 ? 'pass' : 'fail'}}">分</text>
     </view>
     <view class="score-detail">
       <view class="detail-item">

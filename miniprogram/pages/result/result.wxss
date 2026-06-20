@@ -6,9 +6,8 @@
 .score-circle {
   width: 240rpx; height: 240rpx;
   border-radius: 50%;
-  background: conic-gradient(#07c160 0deg, #07c160 3.6deg, #eee 3.6deg);
-  /* 动态圆环可后续用 canvas 实现 */
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   margin: 0 auto;
@@ -24,17 +23,19 @@
 .score-rate {
   font-size: 72rpx;
   font-weight: bold;
-  color: #07c160;
   position: relative;
   z-index: 1;
 }
+.score-rate.pass { color: #07c160; }
+.score-rate.fail { color: #ee0a24; }
 .score-unit {
   font-size: 28rpx;
-  color: #07c160;
   position: relative;
   z-index: 1;
-  margin-top: 20rpx;
+  margin-top: 10rpx;
 }
+.score-unit.pass { color: #07c160; }
+.score-unit.fail { color: #ee0a24; }
 .score-detail {
   display: flex;
   justify-content: center;
