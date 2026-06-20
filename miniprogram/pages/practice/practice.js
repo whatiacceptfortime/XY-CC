@@ -190,27 +190,16 @@ Page({
   onSubmit() {
     const { correctCount, total, categoryName } = this.data
 
-    // 静默提交答题记录到云端（失败不阻断）
+    // 提交答题记录到云端
     if (app.globalData.cloudReady) {
-      // answers 格式：每题为选中选项索引（单选为数字，多选为数组，未答为-1）
-      const answers = this.data.answers.map(a => {
-        if (!a || !a.answered) return -1
-        if (this.data.isMulti || Array.isArray(a.selected)) {
-          return a.selected.length === 1 ? a.selected[0] : a.selected
-        }
-        return a.selected[0] !== undefined ? a.selected[0] : -1
-      })
-
-      // 重新计算每题是否多选
       const formattedAnswers = this._questions.map((q, i) => {
         const a = this.data.answers[i]
         if (!a || !a.answered) return -1
-        // 多选题传数组，单选/判断传数字
-        if (q.type === 'multi') {
-          return a.selected
-        }
+        if (q.type === 'multi') return a.selected
         return a.selected[0] !== undefined ? a.selected[0] : -1
       })
+
+      console.log('提交答题记录:', { correctCount, total, answersLength: formattedAnswers.length })
 
       api.submitAnswer({
         categoryId: this._categoryId,
@@ -218,7 +207,13 @@ Page({
         answers: formattedAnswers,
         correctCount,
         total
-      }).catch(() => {})
+      }).then(res => {
+        console.log('答题记录提交成功:', res)
+      }).catch(err => {
+        console.error('答题记录提交失败:', err)
+      })
+    } else {
+      console.warn('云开发未就绪，答题记录未保存')
     }
 
     wx.navigateTo({
