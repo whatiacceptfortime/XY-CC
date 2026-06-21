@@ -50,9 +50,9 @@ Page({
     }
 
     // 生成 CSV
-    let csv = '姓名,手机号,已答题数(去重),题库总量,覆盖率(%),正确率(%),答题次数,最近答题,状态\n'
+    let csv = '姓名,账号,已答题数(去重),题库总量,覆盖率(%),正确率(%),答题次数,最近答题,状态\n'
     list.forEach(s => {
-      csv += `${s.name},${s.phone},${s.uniqueAnswered},${totalQuestions},${s.coverage},${s.correctRate},${s.totalAnswered},${s.lastTimeStr},${s.status === 'expired' ? '已过期' : '有效'}\n`
+      csv += `${s.name},${s.account || s.phone || ''},${s.uniqueAnswered},${totalQuestions},${s.coverage},${s.correctRate},${s.totalAnswered},${s.lastTimeStr},${s.status === 'expired' ? '已过期' : '有效'}\n`
     })
 
     this.setData({ showExport: true, csvText: csv })

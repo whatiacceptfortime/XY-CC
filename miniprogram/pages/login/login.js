@@ -1,11 +1,11 @@
-// pages/login/login.js - 学员/管理员手机号登录
+// pages/login/login.js - 学员/管理员账号登录
 const app = getApp()
 const api = require('../../utils/api')
 
 Page({
   data: {
     loading: false,
-    phone: '',
+    account: '',
     cloudReady: false
   },
 
@@ -13,11 +13,11 @@ Page({
     this.setData({ cloudReady: app.globalData.cloudReady })
   },
 
-  onPhoneInput(e) {
-    this.setData({ phone: e.detail.value })
+  onAccountInput(e) {
+    this.setData({ account: e.detail.value })
   },
 
-  /** 手机号登录 */
+  /** 账号登录 */
   async onLogin() {
     if (this.data.loading) return
 
@@ -31,17 +31,17 @@ Page({
       return
     }
 
-    const phone = this.data.phone.trim()
-    if (!/^1\d{10}$/.test(phone)) {
-      wx.showToast({ title: '请输入11位手机号', icon: 'none' })
+    const account = this.data.account.trim()
+    if (!account) {
+      wx.showToast({ title: '请输入账号', icon: 'none' })
       return
     }
 
     this.setData({ loading: true })
 
     try {
-      // 1. 先尝试管理员登录
-      const adminRes = await api.adminLogin({ phone })
+      // 1. 先尝试管理员登录（兼容 account 和 phone 字段）
+      const adminRes = await api.adminLogin({ phone: account, account })
       if (adminRes.code === 0 && adminRes.isAdmin) {
         app.globalData.isAdmin = true
         app.globalData.adminInfo = adminRes.adminInfo
@@ -56,7 +56,7 @@ Page({
       }
 
       // 2. 不是管理员，尝试学员登录
-      const res = await api.studentLogin({ phone })
+      const res = await api.studentLogin({ account, phone: account })
       if (res.code === 0) {
         app.globalData.studentInfo = res.studentInfo
         app.globalData.isLoggedIn = true

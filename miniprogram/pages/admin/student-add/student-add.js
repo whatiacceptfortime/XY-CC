@@ -7,7 +7,7 @@ Page({
     form: {
       _id: '',
       name: '',
-      phone: '',
+      account: '',
       expireDate: ''
     },
     durationOptions: [
@@ -24,21 +24,19 @@ Page({
   onLoad(opts) {
     if (opts.id) {
       this.setData({ isEdit: true })
-      // 从列表页传入数据
       const data = JSON.parse(decodeURIComponent(opts.data || '{}'))
       if (data._id) {
         this.setData({
           form: {
             _id: data._id,
             name: data.name,
-            phone: data.phone,
+            account: data.account || data.phone || '',
             expireDate: data.expireDate
           },
           expireDateStr: data.expireDateStr || ''
         })
       }
     } else {
-      // 默认计算1年后日期
       this.calcExpireDate(12)
     }
   },
@@ -60,18 +58,18 @@ Page({
     this.setData({ 'form.name': e.detail.value })
   },
 
-  onPhoneInput(e) {
-    this.setData({ 'form.phone': e.detail.value })
+  onAccountInput(e) {
+    this.setData({ 'form.account': e.detail.value })
   },
 
   async onSave() {
-    const { name, phone, expireDate } = this.data.form
+    const { name, account, expireDate } = this.data.form
 
     if (!name.trim()) {
       wx.showToast({ title: '请输入姓名', icon: 'none' }); return
     }
-    if (!/^1\d{10}$/.test(phone)) {
-      wx.showToast({ title: '请输入正确手机号', icon: 'none' }); return
+    if (!account.trim()) {
+      wx.showToast({ title: '请输入学员账号', icon: 'none' }); return
     }
 
     this.setData({ saving: true })
@@ -81,7 +79,7 @@ Page({
       const res = await api.adminSaveStudent({
         _id: this.data.isEdit ? this.data.form._id : '',
         name: name.trim(),
-        phone: phone.trim(),
+        account: account.trim(),
         expireDate: expireDate.toISOString()
       })
       wx.hideLoading()

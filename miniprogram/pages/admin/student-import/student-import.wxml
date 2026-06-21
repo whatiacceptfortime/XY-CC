@@ -2,13 +2,13 @@
 <view class="import-page">
   <view class="tips card">
     <view class="tips-title">📋 批量导入说明</view>
-    <view class="tips-item">每行一条，格式：手机号,姓名</view>
+    <view class="tips-item">每行一条，格式：账号,姓名</view>
     <view class="tips-item">分隔符支持逗号、空格</view>
-    <view class="tips-item">已存在的手机号将自动更新</view>
+    <view class="tips-item">已存在的账号将自动更新</view>
     <view class="tips-example">
       示例：
-      13800138000,张三
-      13900139000,李四
+      xy001,张三
+      xy002,李四
     </view>
   </view>
 
@@ -24,7 +24,7 @@
   <view class="text-area-wrap card">
     <textarea
       class="text-area"
-      placeholder="请按格式输入学员信息，每行一条&#10;13800138000,张三&#10;13900139000,李四"
+      placeholder="请按格式输入学员信息，每行一条&#10;xy001,张三&#10;xy002,李四"
       value="{{text}}"
       bindinput="onTextInput"
       maxlength="-1"

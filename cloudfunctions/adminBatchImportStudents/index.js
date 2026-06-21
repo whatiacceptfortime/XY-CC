@@ -28,12 +28,12 @@ exports.main = async (event, context) => {
 
   for (let i = 0; i < students.length; i++) {
     const s = students[i]
-    const phone = (s.phone || '').trim()
+    const account = (s.account || s.phone || '').trim()
     const name = (s.name || '').trim()
 
-    if (!phone || !/^1\d{10}$/.test(phone)) {
+    if (!account) {
       failed++
-      errors.push(`第${i + 1}行：手机号格式错误`)
+      errors.push(`第${i + 1}行：账号为空`)
       continue
     }
     if (!name) {
@@ -43,18 +43,21 @@ exports.main = async (event, context) => {
     }
 
     try {
-      // 检查是否已存在
-      const exist = await db.collection('students').where({ phone }).get()
+      // 检查是否已存在（兼容 account 和 phone 字段）
+      const _ = db.command
+      const exist = await db.collection('students').where(
+        _.or([{ account }, { phone: account }])
+      ).get()
       if (exist.data.length > 0) {
         // 已存在则更新
         await db.collection('students').doc(exist.data[0]._id).update({
-          data: { name, expireDate, updateTime: db.serverDate() }
+          data: { account, name, expireDate, updateTime: db.serverDate() }
         })
         success++
       } else {
         await db.collection('students').add({
           data: {
-            phone,
+            account,
             name,
             expireDate,
             createTime: db.serverDate()

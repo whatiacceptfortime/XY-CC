@@ -1,22 +1,26 @@
-// cloudfunctions/studentLogin/index.js - 学员手机号登录+有效期校验
+// cloudfunctions/studentLogin/index.js - 学员账号登录+有效期校验
 const cloud = require('wx-server-sdk')
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 const db = cloud.database()
 
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
-  const { phone } = event
+  const { account, phone } = event
+  const loginKey = account || phone // 兼容旧数据
 
-  if (!phone) {
-    return { code: 400, msg: '请输入手机号' }
+  if (!loginKey) {
+    return { code: 400, msg: '请输入账号' }
   }
 
   try {
-    // 查询手机号是否在学员白名单
-    const res = await db.collection('students').where({ phone }).get()
+    // 查询账号是否在学员白名单（兼容 account 和 phone 字段）
+    const _ = db.command
+    const res = await db.collection('students').where(
+      _.or([{ account: loginKey }, { phone: loginKey }])
+    ).get()
 
     if (res.data.length === 0) {
-      return { code: 403, msg: '该手机号未开通权限，请联系管理员' }
+      return { code: 403, msg: '该账号未开通权限，请联系管理员' }
     }
 
     const student = res.data[0]
@@ -42,7 +46,7 @@ exports.main = async (event, context) => {
       studentInfo: {
         _id: student._id,
         name: student.name,
-        phone: student.phone,
+        account: student.account || student.phone || loginKey,
         expireDate: student.expireDate
       }
     }

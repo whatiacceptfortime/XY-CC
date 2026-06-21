@@ -20,7 +20,7 @@
           <text class="stu-name">{{item.name}}</text>
           <text class="stu-status {{item.status}}">{{item.status === 'expired' ? '已过期' : '有效'}}</text>
         </view>
-        <view class="stu-phone">{{item.phone}}</view>
+        <view class="stu-phone">{{item.account || item.phone}}</view>
         <view class="stu-stats">
           <view class="stat-block">
             <text class="stat-val">{{item.uniqueAnswered}}</text>

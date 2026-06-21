@@ -5,18 +5,22 @@ const db = cloud.database()
 
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
-  const { phone } = event
+  const { phone, account } = event
+  const loginKey = account || phone
 
-  if (!phone) {
-    return { code: 400, msg: '缺少手机号' }
+  if (!loginKey) {
+    return { code: 400, msg: '请输入账号' }
   }
 
   try {
-    // 查询手机号是否在白名单
-    const res = await db.collection('admins').where({ phone }).get()
+    // 查询账号是否在白名单（兼容 phone 和 account 字段）
+    const _ = db.command
+    const res = await db.collection('admins').where(
+      _.or([{ phone: loginKey }, { account: loginKey }])
+    ).get()
 
     if (res.data.length === 0) {
-      return { code: 403, msg: '该手机号未授权，无管理权限', isAdmin: false }
+      return { code: 403, msg: '该账号未授权，无管理权限', isAdmin: false }
     }
 
     const admin = res.data[0]

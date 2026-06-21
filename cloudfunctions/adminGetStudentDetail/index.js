@@ -92,7 +92,7 @@ exports.main = async (event, context) => {
       return {
         _id: s._id,
         name: s.name || '未命名',
-        phone: s.phone || '',
+        account: s.account || s.phone || '',
         uniqueAnswered,
         totalAnswered: r.totalAnswered,
         correctRate,

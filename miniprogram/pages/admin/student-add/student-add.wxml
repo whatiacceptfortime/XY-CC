@@ -7,8 +7,8 @@
     </view>
 
     <view class="form-row">
-      <text class="form-label">手机号</text>
-      <input class="form-input" type="number" maxlength="11" placeholder="请输入手机号" value="{{form.phone}}" bindinput="onPhoneInput" />
+      <text class="form-label">学员账号</text>
+      <input class="form-input" placeholder="请输入学员账号" value="{{form.account}}" bindinput="onAccountInput" />
     </view>
 
     <view class="form-row" wx:if="{{!isEdit}}">

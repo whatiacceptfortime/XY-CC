@@ -32,12 +32,11 @@ Page({
     for (const line of lines) {
       const trimmed = line.trim()
       if (!trimmed) continue
-      // 支持逗号、空格、制表符分隔
       const parts = trimmed.split(/[,，\s\t]+/)
       if (parts.length >= 2) {
-        students.push({ phone: parts[0], name: parts[1] })
-      } else if (parts.length === 1 && /^1\d{10}$/.test(parts[0])) {
-        students.push({ phone: parts[0], name: '学员' + parts[0].slice(-4) })
+        students.push({ account: parts[0], name: parts[1] })
+      } else if (parts.length === 1) {
+        students.push({ account: parts[0], name: '学员' + parts[0].slice(-4) })
       }
     }
     return students

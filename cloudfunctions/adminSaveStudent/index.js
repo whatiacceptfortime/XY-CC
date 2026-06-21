@@ -12,10 +12,11 @@ exports.main = async (event, context) => {
     return { code: 403, msg: '无管理权限' }
   }
 
-  const { _id, phone, name, expireDate } = event
+  const { _id, account, phone, name, expireDate } = event
+  const accountKey = account || phone // 兼容旧字段
 
-  if (!phone || !/^1\d{10}$/.test(phone)) {
-    return { code: 400, msg: '请输入正确的手机号' }
+  if (!accountKey) {
+    return { code: 400, msg: '请输入学员账号' }
   }
   if (!name) {
     return { code: 400, msg: '请输入学员姓名' }
@@ -25,16 +26,19 @@ exports.main = async (event, context) => {
   }
 
   try {
-    // 检查手机号是否已存在（新增时）
+    // 检查账号是否已存在（新增时）
     if (!_id) {
-      const exist = await db.collection('students').where({ phone }).get()
+      const _ = db.command
+      const exist = await db.collection('students').where(
+        _.or([{ account: accountKey }, { phone: accountKey }])
+      ).get()
       if (exist.data.length > 0) {
-        return { code: 400, msg: '该手机号已录入' }
+        return { code: 400, msg: '该账号已录入' }
       }
     }
 
     const studentData = {
-      phone,
+      account: accountKey,
       name,
       expireDate: new Date(expireDate),
       updateTime: db.serverDate()
