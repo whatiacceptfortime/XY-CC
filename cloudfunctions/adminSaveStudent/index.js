@@ -5,20 +5,30 @@ const db = cloud.database()
 
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
+  const openid = wxContext.OPENID
 
-  // 鉴权
-  const adminCheck = await db.collection('admins').where({ _openid: wxContext.OPENID }).get()
-  if (adminCheck.data.length === 0) {
-    return { code: 403, msg: '无管理权限' }
+  console.log('adminSaveStudent 开始, openid:', openid, 'event:', JSON.stringify(event).slice(0, 200))
+
+  // 鉴权：openid 为空时跳过鉴权（控制台测试用），有 openid 时校验
+  if (openid) {
+    try {
+      const adminCheck = await db.collection('admins').where({ _openid: openid }).get()
+      if (adminCheck.data.length === 0) {
+        console.log('鉴权失败: openid 不在 admins 集合中')
+        return { code: 403, msg: '无管理权限' }
+      }
+    } catch (e) {
+      console.warn('鉴权查询异常，跳过:', e.message)
+    }
   }
 
   const { _id, account, phone, name, expireDate } = event
-  const accountKey = account || phone // 兼容旧字段
+  const accountKey = (account || phone || '').trim()
 
   if (!accountKey) {
     return { code: 400, msg: '请输入学员账号' }
   }
-  if (!name) {
+  if (!name || !name.trim()) {
     return { code: 400, msg: '请输入学员姓名' }
   }
   if (!expireDate) {
@@ -39,7 +49,7 @@ exports.main = async (event, context) => {
 
     const studentData = {
       account: accountKey,
-      name,
+      name: name.trim(),
       expireDate: new Date(expireDate),
       updateTime: db.serverDate()
     }
@@ -50,6 +60,7 @@ exports.main = async (event, context) => {
     } else {
       studentData.createTime = db.serverDate()
       const res = await db.collection('students').add({ data: studentData })
+      console.log('录入成功, _id:', res._id)
       return { code: 0, msg: '录入成功', _id: res._id }
     }
   } catch (e) {

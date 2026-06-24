@@ -83,15 +83,25 @@ Page({
         expireDate: expireDate.toISOString()
       })
       wx.hideLoading()
+      console.log('adminSaveStudent 返回:', res)
       if (res.code === 0) {
         wx.showToast({ title: res.msg, icon: 'success' })
         setTimeout(() => wx.navigateBack(), 800)
       } else {
-        wx.showToast({ title: res.msg, icon: 'none' })
+        wx.showModal({
+          title: '保存失败',
+          content: res.msg || '未知错误',
+          showCancel: false
+        })
       }
     } catch (e) {
       wx.hideLoading()
-      wx.showToast({ title: '保存失败', icon: 'none' })
+      console.error('adminSaveStudent 异常:', e)
+      wx.showModal({
+        title: '网络异常',
+        content: e.errMsg || e.message || '请检查网络后重试',
+        showCancel: false
+      })
     }
     this.setData({ saving: false })
   }
