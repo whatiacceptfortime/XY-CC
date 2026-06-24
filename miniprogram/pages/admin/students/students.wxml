@@ -41,6 +41,7 @@
         </view>
         <view class="stu-time">最近答题：{{item.lastTimeStr}} · 到期：{{item.expireDateStr}}</view>
       </view>
+      <view class="stu-delete" data-id="{{item._id}}" data-index="{{index}}" catchtap="onDelete">删除</view>
     </view>
   </view>
 

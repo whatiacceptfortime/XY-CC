@@ -82,5 +82,6 @@ module.exports = {
   adminGetStudents: (params) => callCloud('adminGetStudents', params),
   adminGetStudentDetail: () => callCloud('adminGetStudentDetail'),
   adminGetStats: () => callCloud('adminGetStats'),
-  adminBatchImportStudents: (params) => callCloud('adminBatchImportStudents', params)
+  adminBatchImportStudents: (params) => callCloud('adminBatchImportStudents', params),
+  adminDeleteStudent: (id) => callCloud('adminDeleteStudent', { _id: id })
 }

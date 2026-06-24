@@ -85,5 +85,35 @@ Page({
   onImport() {
     this._needRefresh = true
     wx.navigateTo({ url: '/pages/admin/student-import/student-import' })
+  },
+
+  /** 删除学员 */
+  onDelete(e) {
+    const { id, index } = e.currentTarget.dataset
+    const student = this.data.list[index]
+    wx.showModal({
+      title: '确认删除',
+      content: `确定删除学员「${student.name}」(${student.account || ''})吗？\n其答题记录和错题将一并清除，不可恢复！`,
+      success: async (r) => {
+        if (r.confirm) {
+          wx.showLoading({ title: '删除中...' })
+          try {
+            const res = await api.adminDeleteStudent(id)
+            wx.hideLoading()
+            if (res.code === 0) {
+              const list = [...this.data.list]
+              list.splice(index, 1)
+              this.setData({ list })
+              wx.showToast({ title: '已删除', icon: 'success' })
+            } else {
+              wx.showToast({ title: res.msg, icon: 'none' })
+            }
+          } catch (e) {
+            wx.hideLoading()
+            wx.showToast({ title: '删除失败', icon: 'none' })
+          }
+        }
+      }
+    })
   }
 })
