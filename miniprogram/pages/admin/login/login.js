@@ -5,7 +5,7 @@ const api = require('../../../utils/api')
 Page({
   data: {
     loading: false,
-    phone: ''
+    account: ''
   },
 
   /** 微信手机号快速登录（真机用） */
@@ -21,7 +21,7 @@ Page({
       if (res.code === 0 && res.isAdmin) {
         this.loginSuccess(res)
       } else {
-        wx.showModal({ title: '无权限', content: res.msg || '该手机号未授权', showCancel: false })
+        wx.showModal({ title: '无权限', content: res.msg || '该账号未授权', showCancel: false })
       }
     } catch (e) {
       wx.showToast({ title: '请使用手动输入', icon: 'none' })
@@ -30,25 +30,25 @@ Page({
     }
   },
 
-  onPhoneInput(e) {
-    this.setData({ phone: e.detail.value })
+  onAccountInput(e) {
+    this.setData({ account: e.detail.value })
   },
 
-  /** 手动输入手机号登录 */
+  /** 手动输入账号登录 */
   async onManualLogin() {
-    const phone = this.data.phone.trim()
-    if (!/^1\d{10}$/.test(phone)) {
-      wx.showToast({ title: '请输入11位手机号', icon: 'none' })
+    const account = this.data.account.trim()
+    if (!account) {
+      wx.showToast({ title: '请输入账号', icon: 'none' })
       return
     }
 
     this.setData({ loading: true })
     try {
-      const res = await api.adminLogin({ phone })
+      const res = await api.adminLogin({ account, phone: account })
       if (res.code === 0 && res.isAdmin) {
         this.loginSuccess(res)
       } else {
-        wx.showModal({ title: '无权限', content: res.msg || '该手机号未授权', showCancel: false })
+        wx.showModal({ title: '无权限', content: res.msg || '该账号未授权', showCancel: false })
       }
     } catch (e) {
       wx.showToast({ title: '网络异常', icon: 'none' })
